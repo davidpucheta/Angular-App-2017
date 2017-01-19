@@ -3,10 +3,7 @@
 
 
 angular.module('myFirstApp', [])
-       .controller('MyFirtController', function(){
-
+       .controller('MyFirtController', function($scope){
+           $scope.name = "David";
        });
-
-
-
 })();
