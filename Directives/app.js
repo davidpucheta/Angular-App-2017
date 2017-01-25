@@ -5,67 +5,74 @@ angular.module('ShoppingListDirectiveApp', [])
     .controller('ShoppingListController1', ShoppingListController1)
     .controller('ShoppingListController2', ShoppingListController2)
     .factory('ShoppingListFactory', ShoppingListFactory)
-    .directive('listItemDescription', ListItemDescription)
-    .directive('listItem', ListItem);
+    .directive('shoppingList', ShoppingList);
 
-function ListItem(){
+
+function ShoppingList(){
     var ddo = {
-        templateUrl : 'listItem.html'
+        templateUrl: 'shoppingList.html',
+        scope: {
+            list: "=myList",
+            title: "@title"
+        }
     };
     return ddo;
 }
 
-function ListItemDescription(){
-    var ddo = {
-        template : '{{ item.quantity }} of {{ item.name }}'
-    };
-    return ddo;
-}
 
 //List 1 controller
 ShoppingListController1.$inject = ['ShoppingListFactory'];
 function ShoppingListController1 (ShoppingListFactory) {
-    var list1 = this;
-
+    var list = this;
+    
   //use factory to create ShoppingList srvice
   var ShoppingList = ShoppingListFactory();
 
-  list1.items = ShoppingList.getItems();
+  list.items = ShoppingList.getItems();
 
-  list1.itemName = "";
-  list1.itemQuantity = "";
+  var origTitle = "Shopping List #1";
+  list.title = origTitle + " (" + list.items.length + " items )";
 
-  list1.addItem = function(){
-      ShoppingList.addItem(list1.itemName, list1.itemQuantity);
+  list.itemName = "";
+  list.itemQuantity = "";
+
+  list.addItem = function(){
+      ShoppingList.addItem(list.itemName, list.itemQuantity);
+      list.title = origTitle + " (" + list.items.length + " items )";
   };
 
-  list1.removeItem = function(itemIndex){
+  list.removeItem = function(itemIndex){
       ShoppingList.removeItem(itemIndex);
+      list.title = origTitle + " (" + list.items.length + " items )";
   };
 }
 
 ShoppingListController2.$inject = ['ShoppingListFactory']
 function ShoppingListController2(ShoppingListFactory) {
-     var list2 = this;
-
+    var list = this;
     //use factory to create ShoppingList srvice
     var ShoppingList = ShoppingListFactory(3);
 
-    list2.items = ShoppingList.getItems();
+    list.items = ShoppingList.getItems();
 
-    list2.itemName = "";
-    list2.itemQuantity = "";
+    var origTitle = "Shopping List #2";
+    list.title = origTitle + " (" + list.items.length + " items )";
 
-    list2.addItem = function(){
+    list.itemName = "";
+    list.itemQuantity = "";
+
+    list.addItem = function(){
         try{
-             ShoppingList.addItem(list2.itemName, list2.itemQuantity);
+             ShoppingList.addItem(list.itemName, list.itemQuantity);
+             list.title = origTitle + " (" + list.items.length + " items )";
         } catch (error) {
-            list2.errorMessage = error.message;
+            list.errorMessage = error.message;
         }
     };
 
-    list2.removeItem = function(itemIndex){
+    list.removeItem = function(itemIndex){
         ShoppingList.removeItem(itemIndex);
+        list.title = origTitle + " (" + list.items.length + " items )";
     };
 
 }
