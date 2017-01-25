@@ -5,19 +5,38 @@ angular.module('ShoppingListDirectiveApp', [])
     .controller('ShoppingListController1', ShoppingListController1)
     .controller('ShoppingListController2', ShoppingListController2)
     .factory('ShoppingListFactory', ShoppingListFactory)
-    .directive('shoppingList', ShoppingList);
+    .directive('shoppingList', ShoppingListDirective);
 
 
-function ShoppingList(){
+function ShoppingListDirective(){
     var ddo = {
         templateUrl: 'shoppingList.html',
         scope: {
-            list: "=myList",
-            title: "@title"
-        }
+            items: '<',
+            title: '@'
+        },
+        controller: ShoppingListDirectiveController,
+        controllerAs: 'list',
+        bindToController: true
     };
     return ddo;
 }
+
+function ShoppingListDirectiveController() {
+  var list = this;
+
+  list.cookiesInList = function () {
+    for (var i = 0; i < list.items.length; i++) {
+      var name = list.items[i].name;
+      if (name.toLowerCase().indexOf("cookie") !== -1) {
+        return true;
+      }
+    }
+
+    return false;
+  };
+}
+
 
 
 //List 1 controller
