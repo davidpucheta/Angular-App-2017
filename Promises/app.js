@@ -1,5 +1,6 @@
 (function (){
     'use strict';
+    
 
 angular.module('ShoppingListPromiseApp', [])
     .controller('ShoppingListController', ShoppingListController)
